@@ -6,7 +6,7 @@ use crate::sampler::PyOperatorSampler;
 
 #[pyclass]
 pub struct PyTreeGenotype {
-    internal: TreeGenotype
+    pub(crate) internal: TreeGenotype
 }
 
 #[pymethods]
@@ -40,5 +40,14 @@ impl PyTreeGenotype {
     fn construct_children(&mut self, sampler: &PyOperatorSampler) -> PyResult<()> {
         *self.internal.children_mut() = self.internal.construct_children(&sampler.internal);
         return Ok(());
+    }
+}
+
+impl<'source> FromPyObject<'source> for PyTreeGenotype {
+    fn extract_bound(ob: &Bound<'source, PyAny>) -> PyResult<Self> {
+        let arena: Vec<String> = ob.getattr("arena")?.extract()?;
+        let children: HashMap<usize, Vec<usize>> = ob.getattr("children")?.extract()?;
+
+        return Ok(Self { internal: TreeGenotype::new(arena, children)});
     }
 }

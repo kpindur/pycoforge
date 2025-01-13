@@ -3,8 +3,10 @@
 
 use pyo3::prelude::*;
 
-mod tree;
 mod sampler;
+
+mod tree;
+mod individual;
 
 #[pymodule]
 fn pycoforge(_py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
