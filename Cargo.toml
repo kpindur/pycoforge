@@ -9,6 +9,5 @@ crate-type = ["cdylib"]
 
 [dependencies]
 mycoforge = { version='*', git='https://github.com/kpindur/mycoforge.git' }
-pyo3 = "0.23.4"
-
+pyo3 = { version="0.23.4", features=[ "extension-module" ] }
 
