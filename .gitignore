@@ -4,3 +4,5 @@ bacon.toml
 
 target
 .env
+
+**/__pycache__/**
