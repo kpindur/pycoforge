@@ -3,5 +3,11 @@ requires = [ "maturin>=1.4,<2.0" ]
 build-backend = "maturin"
 
 [pyproject]
-name = "mycoforge"
+name = "pycoforge"
 version = "0.1.0"
+
+[tool.pyright]
+extraPaths = [".env/lib/python3.12/site-packages"]
+
+[tool.pytest]
+testpaths = ["tests"]
