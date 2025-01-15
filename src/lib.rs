@@ -8,6 +8,8 @@ mod sampler;
 mod tree;
 mod individual;
 
+mod init;
+
 mod mutation;
 mod crossover;
 
@@ -15,6 +17,9 @@ mod crossover;
 fn pycoforge(_py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<sampler::PyOperatorSampler>()?;
     m.add_class::<tree::PyTreeGenotype>()?;
+
+    m.add_class::<init::PyGrow>()?;
+    m.add_class::<init::PyFull>()?;
 
     m.add_class::<mutation::PySubtreeMutation>()?;
     m.add_class::<mutation::PySizeFairMutation>()?;
