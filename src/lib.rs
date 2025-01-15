@@ -9,6 +9,7 @@ mod tree;
 mod individual;
 
 mod init;
+mod select;
 
 mod mutation;
 mod crossover;

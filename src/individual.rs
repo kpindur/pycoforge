@@ -7,7 +7,7 @@ use crate::tree::PyTreeGenotype;
 
 #[pyclass]
 pub struct PyTreeIndividual {
-    internal: TreeIndividual<TreeGenotype>
+    pub(crate) internal: TreeIndividual<TreeGenotype>
 }
 
 #[pymethods]
@@ -32,4 +32,12 @@ impl PyTreeIndividual {
             .map(|ind| Self { internal: ind })
             .collect());
     }
+}
+
+impl<'source> FromPyObject<'source> for PyTreeIndividual {
+    fn extract_bound(ob: &Bound<'source, PyAny>) -> PyResult<Self> {
+        let genotype: PyTreeGenotype = ob.getattr("genotype")?.extract()?;
+        let fitness: f64 = ob.getattr("phenotype")?.extract()?;
+        
+        return Ok(Self::new(&genotype, fitness));}
 }
