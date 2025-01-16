@@ -3,6 +3,7 @@
 
 use pyo3::prelude::*;
 
+mod random;
 mod sampler;
 
 mod tree;
