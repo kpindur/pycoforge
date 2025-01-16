@@ -71,30 +71,29 @@ impl PySubtreeCrossover {
     #[getter]
     /// The probability of applying crossover
     fn probability(&self) -> f64 {
-        self.internal.probability()
+        return self.internal.probability();
     }
 
     /// Create a string representation of the crossover operator
     fn __repr__(&self) -> String {
-        format!("SubtreeCrossover(probability={})", self.probability())
+        return format!("SubtreeCrossover(probability={})", self.probability());
     }
 
     /// Create a string representation of the crossover operator
     fn __str__(&self) -> String {
-        self.__repr__()
+        return self.__repr__();
     }
 
     /// Compare two crossover operators for equality
     fn __eq__(&self, other: &PySubtreeCrossover) -> bool {
-        self.probability() == other.probability()
+        return self.probability() == other.probability();
     }
 
     /// Create a copy of the crossover operator
     fn __copy__(&self) -> PySubtreeCrossover {
-        PySubtreeCrossover {
-            internal: self.internal.clone()
-        }
-    }
+        let probability = self.internal.probability();
+
+        return PySubtreeCrossover::new(probability).expect("Failed to copy SubtreeCrossover!");
     }
 
     fn variate(&self, 
