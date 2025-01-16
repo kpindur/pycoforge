@@ -46,7 +46,8 @@ impl RngCore for PyRng<'_> {
     }
 }
 
-#[pyclass]
+/// Python wrapper for SubtreeCrossover operator
+#[pyclass(name = "SubtreeCrossover")]
 pub struct PySubtreeCrossover {
     pub(crate) internal: SubtreeCrossover
 }
@@ -57,7 +58,8 @@ impl PySubtreeCrossover {
     fn new(probability: f64) -> PyResult<Self> {
         return Ok(Self {
             internal: SubtreeCrossover::new(probability)
-                .map_err(|e| PyErr::new::<pyo3::exceptions::PyValueError, _>(e.to_string()))?
+                .map_err(|e| 
+                    PyErr::new::<pyo3::exceptions::PyValueError, _>(e.to_string()))?
         });
     }
 
@@ -66,8 +68,33 @@ impl PySubtreeCrossover {
         return Self { internal: SubtreeCrossover::default() };
     }
 
+    #[getter]
+    /// The probability of applying crossover
     fn probability(&self) -> f64 {
-        return self.internal.probability();
+        self.internal.probability()
+    }
+
+    /// Create a string representation of the crossover operator
+    fn __repr__(&self) -> String {
+        format!("SubtreeCrossover(probability={})", self.probability())
+    }
+
+    /// Create a string representation of the crossover operator
+    fn __str__(&self) -> String {
+        self.__repr__()
+    }
+
+    /// Compare two crossover operators for equality
+    fn __eq__(&self, other: &PySubtreeCrossover) -> bool {
+        self.probability() == other.probability()
+    }
+
+    /// Create a copy of the crossover operator
+    fn __copy__(&self) -> PySubtreeCrossover {
+        PySubtreeCrossover {
+            internal: self.internal.clone()
+        }
+    }
     }
 
     fn variate(&self, 
